@@ -8,7 +8,22 @@ inventario = {
 }
 
 ventas_del_dia = []
-print("Bienvenido al sistema de inventario de la ferretería.")
+def ventas_totales():
+    total = 0
+    for venta in ventas_del_dia:
+        total += venta["total"]
+    return total
+
+print("===SISTEMA FERREMAX===")
+usuario = input("Ingrese su número de empleado: ")
+
+while True:
+    if usuario == "1234":
+        print("Acceso concedido. Bienvenido al sistema de inventario <<<<FERREMAX>>>>.")
+        break
+    else:
+        print("Acceso denegado. Numero de empleado incorrecto. Intente nuevamente.")
+        usuario = input("Ingrese su número de empleado: ")
 
 while True:
     print("===Sistema de Inventario===")
@@ -23,8 +38,28 @@ while True:
 
     opcion = input("Selecciona una opción: ")
 
+    if opcion == "1":
+        print("===Agregar productos===")
+        nombre = input("Ingrese el nombre del producto: ")
+        if nombre in inventario:
+            print("El producto ya existe en el inventario. Por favor, actualice la cantidad o el precio si es necesario.")
+            continue
+        try:
+            precio = float(input("Ingrese el precio del producto: "))
+            cantidad = int(input("Ingrese la cantidad del producto: "))
 
-    if opcion == "2":
+            if precio <= 0 or cantidad < 0:
+                print("Error: El precio debe ser mayor que cero y la cantidad debe ser mayor o igual a cero.")
+                continue
+        except ValueError:
+            print("Error: Por favor, ingrese valores numéricos válidos para el precio y la cantidad.")
+
+        else:
+            inventario[nombre] = {"precio": precio, "cantidad": cantidad}
+            print(f"Producto agregado: {nombre}")
+
+
+    elif opcion == "2":
         print("===Consultar productos===")
         for producto, info in inventario.items():
             print(f"{producto}: Precio: ${info['precio']}, Cantidad: {info['cantidad']}")
@@ -77,20 +112,33 @@ while True:
         else:
             print("Producto no encontrado en el inventario.")
 
-    elif opcion == "7":
-        print("===Total vendido en el día===")
+    elif opcion == "5":
+        print("===Stock bajo===")
+        stock_bajo = {producto: info for producto, info in inventario.items() if info["cantidad"] <= 5}
 
+        if stock_bajo:
+            print("Productos con stock bajo:")
+            for producto, info in stock_bajo.items():
+                print(f"{producto}: Cantidad disponible: {info['cantidad']}")
+        else:
+            print("No hay productos con stock bajo.")
+
+    elif opcion == "6":
+        print("===Ventas del día===")
         if ventas_del_dia:
-            total_dia = 0
             for venta in ventas_del_dia:
-                total_dia += venta["total"]
-            print(f"Total vendido en el día: ${total_dia:.2f}")
-            print(inventario)
+                print(f"Producto: {venta['producto']}, Cantidad: {venta['cantidad']}, Precio unitario: ${venta['precio']:.2f}, Total: ${venta['total']:.2f}")
         else:
             print("No se han registrado ventas hoy.")
 
+    elif opcion == "7":
+        print("===Total vendido en el día===")
+        total_vendido = ventas_totales()
+        print(f"Total vendido en el día: ${total_vendido:.2f}") 
+
+
     elif opcion == "8":
-        print("Gracias por utilizar el sistema de inventario.")
+        print("===GRACIAS POR UTILIZAR EL SISTEMA DE INVENTARIO===")
         break
     else:
         print("Opción inválida. Por favor, seleccione una opción válida.")
