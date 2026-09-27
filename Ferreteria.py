@@ -6,6 +6,8 @@ inventario = {
     "cinta métrica": {"precio": 5.99, "cantidad": 20},
     "sierra": {"precio": 49.99, "cantidad": 3}
 }
+
+ventas_del_dia = []
 print("Bienvenido al sistema de inventario de la ferretería.")
 
 while True:
@@ -46,8 +48,26 @@ while True:
         print("===Consultar productos===")
         for producto, info in inventario.items():
             print(f"{producto}: Precio: ${info['precio']}, Cantidad: {info['cantidad']}")
+    
+    elif opcion == "5":
+        print("===Stock bajo===")
+        stock_bajo = {producto: info for producto, info in inventario.items() if info['cantidad'] <= 5}
+        if stock_bajo:
+            for producto, info in stock_bajo.items():
+                print(f"{producto}: Cantidad: {info['cantidad']}")
+        else:
+            print("No hay productos con stock bajo.")
 
- 
+    elif opcion == "6":
+        print("===Ventas del día===")
+        if ventas_del_dia:
+            for venta in ventas_del_dia:
+                print(f"Producto: {venta['producto']}, Cantidad: {venta['cantidad']}, Total: ${venta['total']:.2f}")
+        else:
+            print("No se han registrado ventas hoy.")
+
+
+
 
 
 
