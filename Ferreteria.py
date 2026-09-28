@@ -25,9 +25,14 @@ def ventas_totales():
 
 print("===SISTEMA FERREMAX===")
 usuario = input("Ingrese su número de empleado: ")
+acceso_concedido = False
 
-while True:
+while True:        
+    
+
     if usuario == "1234":
+        acceso_concedido = True
+
         print("Acceso concedido. Bienvenido al sistema de inventario <<<<FERREMAX>>>>.")
         break
     else:
