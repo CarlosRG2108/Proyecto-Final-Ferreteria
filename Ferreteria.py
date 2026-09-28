@@ -1,11 +1,20 @@
-inventario = {
-    "martillo": {"precio": 15.99, "cantidad": 10},
-    "destornillador": {"precio": 7.49, "cantidad": 25},
-    "taladro": {"precio": 89.99, "cantidad": 5},
-    "llave inglesa": {"precio": 12.99, "cantidad": 8},
-    "cinta métrica": {"precio": 5.99, "cantidad": 20},
-    "sierra": {"precio": 49.99, "cantidad": 3}
-}
+inventario = {}
+
+try:
+    with open("Inventario.txt", "r") as archivo:
+            contenido = archivo.read()
+            print("Contenido del archivo Inventario.txt:")
+
+            for linea in contenido.splitlines():
+                datos = linea.split("|")
+                nombre = datos[0]
+                precio = float(datos[1])
+                cantidad = int(datos[2])
+                inventario[nombre] = {"precio": precio, "cantidad": cantidad}
+                print(f"Producto: {nombre}, Precio: ${precio:.2f}, Cantidad: {cantidad}")
+                print(datos)
+except FileNotFoundError:
+    print("El archivo Inventario.txt no existe. Se creará uno nuevo al guardar los cambios.") 
 
 ventas_del_dia = []
 def ventas_totales():
@@ -56,6 +65,8 @@ while True:
 
         else:
             inventario[nombre] = {"precio": precio, "cantidad": cantidad}
+            with open("Inventario.txt", "a") as archivo:
+                archivo.write(f"{nombre}|{precio}|{cantidad}\n")
             print(f"Producto agregado: {nombre}")
 
 
@@ -138,6 +149,9 @@ while True:
 
 
     elif opcion == "8":
+        with open("Inventario.txt", "w") as archivo:
+            for producto, info in inventario.items():
+                archivo.write(f"{producto}|{info['precio']}|{info['cantidad']}\n")
         print("===GRACIAS POR UTILIZAR EL SISTEMA DE INVENTARIO===")
         break
     else:

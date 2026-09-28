@@ -1,0 +1,6 @@
+martillo|15.99|10
+destornillador|7.49|25
+taladro|89.99|2
+llave inglesa|12.99|8
+cinta métrica|5.99|20
+sierra|49.99|3
